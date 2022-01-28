@@ -54,7 +54,7 @@ if __name__ == "__main__":
             endval = len(value)
         for i in range(0, endval, 3):
             if value[i:i + 3] not in codont.keys():
-                print('X', end = '')
+                print('', end = '')
             else:
                 print(codont[value[i:i + 3]], end = '')
         print()
