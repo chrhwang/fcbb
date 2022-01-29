@@ -44,17 +44,33 @@ def codon_table():
     return codont
 
 if __name__ == "__main__":
-    dict = parse_fasta()
-    codont = codon_table()
+    dict = parse_fasta() # make dictionary of {descriptor_str: sequence_str}
+    codont = codon_table() # make dictionary of codon table
+    err = 0 # to mark exception existence
+    codonexc = [] # to keep track of codon exception
+    codonexc_count = 0 # to keep track of last codon exception
+
     for key, value in dict.items():
         print(">" + key)
-        if len(value) % 3 != 0:
-            endval = len(value) - 1
+
+        if len(value) % 3 != 0: # extra nucleotides at end should not be translated
+            endval = len(value) - (len(value) % 3)
+            err = 1
         else:
             endval = len(value)
-        for i in range(0, endval, 3):
+        
+        for i in range(0, endval, 3): # for all codons
             if value[i:i + 3] not in codont.keys():
                 print('', end = '')
+                codonexc.append(value[i:i + 3])
             else:
                 print(codont[value[i:i + 3]], end = '')
         print()
+        
+        if err == 1:
+            print("Exception:", len(value) % 3,"nucloetide(s) at end of sequence not translated", file = sys.stderr)
+        err = 0
+
+        for i in range(codonexc_count, len(codonexc)):
+            print("Exception: Invalid codon with", codonexc[i])
+            codonexc_count += 1

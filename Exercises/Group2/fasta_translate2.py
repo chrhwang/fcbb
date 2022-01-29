@@ -40,17 +40,27 @@ def codon_table():
         while line != "": # till end of file
             codont[line.split('\n')[0].split('\t')[0]] = line.split('\n')[0].split('\t')[1]
             line = f.readline()
+    
     return codont
 
 if __name__ == "__main__":
-    dict = parse_fasta()
-    codont = codon_table()
+    dict = parse_fasta() # make dictionary of {descriptor_str: sequence_str}
+    codont = codon_table() # make dictionary of codon table
+    err = 0 # to mark exception existence
+
     for key, value in dict.items():
         print(">" + key)
-        if len(value) % 3 != 0:
-            endval = len(value) - 1
+        
+        if len(value) % 3 != 0: # extra nucleotides at end should not be translated
+            endval = len(value) - (len(value) % 3)
+            err = 1
         else:
             endval = len(value)
-        for i in range(0, endval, 3):
+        
+        for i in range(0, endval, 3): # for all codons
             print(codont[value[i:i + 3]], end = '')
         print()
+        
+        if err == 1:
+            print("Exception:", len(value) % 3,"nucloetide(s) at end of sequence not translated", file = sys.stderr)
+        err = 0
