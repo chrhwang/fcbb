@@ -72,5 +72,5 @@ if __name__ == "__main__":
         err = 0
 
         for i in range(codonexc_count, len(codonexc)):
-            print("Exception: Invalid codon with", codonexc[i])
+            print("Exception: Invalid codon with", codonexc[i], file = sys.stderr)
             codonexc_count += 1
