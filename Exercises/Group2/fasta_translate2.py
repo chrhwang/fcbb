@@ -8,9 +8,7 @@ Translate a single gene FASTA file (SHH.fa) and print in FASTA format
 import sys
 
 def parse_fasta():
-    '''
-    Parse reads from a FASTA file
-    '''
+    ''' Return FASTA read dictionary {descriptor_str: sequence_str} '''
     dict = {} # {descriptor_str: sequence_str}
 
     line = sys.stdin.readline() # should be a descriptor_str
@@ -31,9 +29,7 @@ def parse_fasta():
     return dict
 
 def codon_table():
-    '''
-    Create dictionary of codon table
-    '''
+    ''' Return dictionary of codon table '''
     codont = {}
     with open('codon_table.txt', 'r') as f:
         line = f.readline()
@@ -43,7 +39,7 @@ def codon_table():
     
     return codont
 
-if __name__ == "__main__":
+def main():
     dict = parse_fasta() # make dictionary of {descriptor_str: sequence_str}
     codont = codon_table() # make dictionary of codon table
     err = 0 # to mark exception existence
@@ -64,3 +60,5 @@ if __name__ == "__main__":
         if err == 1:
             print("Exception:", len(value) % 3,"nucloetide(s) at end of sequence not translated", file = sys.stderr)
         err = 0
+
+if __name__ == "__main__": main()
