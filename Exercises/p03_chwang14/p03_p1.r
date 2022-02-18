@@ -7,7 +7,7 @@ set.seed(3)
 data(spam)
 
 # split into train (80%) and test (20%)
-testidx <- which(1:length(spam[,1])%%5 == 0)
+testidx <- which(1:length(spam[, 1]) %% 5 == 0)
 spamtrain <- spam[-testidx,]
 spamtest <- spam[testidx,]
 
@@ -20,11 +20,13 @@ prediction <- predict(model, spamtest)
 
 # plot ROC curve
 library(ROCR)
-score <- prediction$posterior[, c("spam")]
-actual_class <- spamtest$type == 'spam'
-pred <- prediction(score, actual_class)
+pred <- prediction(as.numeric(prediction), as.numeric(spamtest$type))
 perf <- performance(pred, "tpr", "fpr")
-auc <- performance(pred, "auc")
-auc <- unlist(slot(auc, "y.values"))
+svmauc <- performance(pred, "auc")
+svmauc <- unlist(slot(svmauc, "y.values"))
 plot(perf, colorize = TRUE)
-legend(0.6, 0.3, c(c(paste('AUC is', auc)), "\n"), border = "white", cex = 1.0, box.col = "white")
+legend(0.6, 0.3, c(c(paste('AUC is', format(round(svmauc, 4), nsmall = 4))), "\n"), border = "white", cex = 1.0, box.col = "white")
+
+# repeat using 10-fold cross validation
+folds <- function(x, n) split(x, sort(rep(1:n, len = length(x))))
+split <- folds(spam, 10)
