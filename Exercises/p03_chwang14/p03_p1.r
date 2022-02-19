@@ -1,5 +1,5 @@
 # Christine Hwang, chwang14@jh.edu
-# p03_p01
+# p03_p1
 # Recognize spam with a support vector machine
 
 library(kernlab)
