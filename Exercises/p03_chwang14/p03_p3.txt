@@ -1,0 +1,4 @@
+Christine Hwang
+chwang14@jh.edu
+
+The perceptron shows a training error of 0 on the iris data set. The Naive Bayes classifier also shows a trainining error of 0 on this data set. Thus, we cannot conclude which classifier has better accuracy on the iris data set - they appear to have the same.
