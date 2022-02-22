@@ -31,7 +31,7 @@ def readFiles(n_file, c_file):
     iter_c = normal.fetch("seq2", 10, 20)
 
     for n in iter_n:
-        print(str(n))
+        print(str(n))d
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
